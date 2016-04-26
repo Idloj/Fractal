@@ -21,9 +21,8 @@ class FractalCanvas extends JPanel {
     else {
       val c = (a * 2 + b) / 3
       val d = (a + b * 2) / 3
-      val e = Point(c.x + (d.x - c.x) / 2 - ((d.y - c.y) * sqrt(3)/2).toInt,
-                    c.y + (d.y - c.y) / 2 + ((d.x - c.x) * sqrt(3)/2).toInt)
-
+      val e = c + (d - c).rotate(PI/3)
+      
       drawCurve(level - 1, a, c, g)
       drawCurve(level - 1, c, e, g)
       drawCurve(level - 1, e, d, g)

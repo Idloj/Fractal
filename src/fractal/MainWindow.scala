@@ -4,44 +4,37 @@ import java.awt._
 import java.awt.event._
 import javax.swing._
 
-import Math._
+import ControlFactory._
 
 object MainWindow extends App {
   EventQueue.invokeLater {
-    val window = new MainWindow()
+    val window = new MainWindow(Class.forName(args(0)).newInstance.asInstanceOf[FractalCanvas])
     window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE)
-    window.setSize(400, 400 + window.drawSpace.getHeight)
+    window.canvas.setPreferredSize(new Dimension(400, 400))
+    window.pack()
+    window.setResizable(false)
     window.setVisible(true)
   }
 }
 
-class MainWindow extends JFrame("Fractal") {
-  addComponentListener(new ComponentAdapter {
-    override def componentResized(e: ComponentEvent) = {
-      val minDim = min(getWidth, getHeight)
-      setSize(minDim, minDim)
-    }
-  })
-
-  private val drawSpace = new FractalCanvas
-
+class MainWindow(val canvas: FractalCanvas) extends JFrame(canvas.name) {
   UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName)
   setLayout(new BorderLayout)
   add(new JPanel(new FlowLayout) {
-    def updateLevelLabel() = levelLabel.setText(drawSpace.level)
+    def updateLevelLabel() = levelLabel.setText(canvas.level)
     val levelLabel = new JLabel {
       def setText(level: Int) = super.setText(s"Level: $level")
     }
-    val inc = new Button("Increase Level", {
-        drawSpace.level += 1
+    val inc = button("Increase Level") {
+        canvas.level += 1
         updateLevelLabel()
         dec.setEnabled(true)
-      })
-    val dec: Button = new Button("Decrease Level", {
-        drawSpace.level -= 1
+      }
+    val dec: JButton = button("Decrease Level") {
+        canvas.level -= 1
         updateLevelLabel()
-        dec.setEnabled(drawSpace.level != 0)
-      })
+        dec.setEnabled(canvas.level != 0)
+      }
 
     dec.setEnabled(false)
     updateLevelLabel()
@@ -49,5 +42,5 @@ class MainWindow extends JFrame("Fractal") {
     add(inc)
     add(levelLabel)
   }, BorderLayout.NORTH)
-  add(drawSpace, BorderLayout.CENTER)
+  add(canvas, BorderLayout.CENTER)
 }
