@@ -8,32 +8,32 @@ import ControlFactory._
 
 object MainWindow extends App {
   EventQueue.invokeLater {
-    val window = new MainWindow(Class.forName(args(0)).newInstance.asInstanceOf[FractalCanvas])
+    val window = new MainWindow(Class.forName(args(0)).newInstance.asInstanceOf[Fractal])
     window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE)
-    window.canvas.setPreferredSize(new Dimension(400, 400))
+    window.fractal.setPreferredSize(new Dimension(400, 400))
     window.pack()
     window.setResizable(false)
     window.setVisible(true)
   }
 }
 
-class MainWindow(val canvas: FractalCanvas) extends JFrame(canvas.name) {
+class MainWindow(val fractal: Fractal) extends JFrame(fractal.name) {
   UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName)
   setLayout(new BorderLayout)
   add(new JPanel(new FlowLayout) {
-    def updateLevelLabel() = levelLabel.setText(canvas.level)
+    def updateLevelLabel() = levelLabel.setText(fractal.level)
     val levelLabel = new JLabel {
       def setText(level: Int) = super.setText(s"Level: $level")
     }
     val inc = button("Increase Level") {
-        canvas.level += 1
+        fractal.level += 1
         updateLevelLabel()
         dec.setEnabled(true)
       }
     val dec: JButton = button("Decrease Level") {
-        canvas.level -= 1
+        fractal.level -= 1
         updateLevelLabel()
-        dec.setEnabled(canvas.level != 0)
+        dec.setEnabled(fractal.level != 0)
       }
 
     dec.setEnabled(false)
@@ -42,5 +42,5 @@ class MainWindow(val canvas: FractalCanvas) extends JFrame(canvas.name) {
     add(inc)
     add(levelLabel)
   }, BorderLayout.NORTH)
-  add(canvas, BorderLayout.CENTER)
+  add(fractal, BorderLayout.CENTER)
 }
