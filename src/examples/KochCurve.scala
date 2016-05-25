@@ -5,14 +5,14 @@ import java.awt.Graphics
 import math._
 
 import fractal.Fractal
-import util.Point
+import util._
 
 class KochCurve extends Fractal {
   val name = "Koch Curve"
 
   def draw(level: Int, g: Graphics, a: Point, b: Point): Unit =
     if (level == 0)
-      g.drawLine(round(a.x.toFloat), round(a.y.toFloat), round(b.x.toFloat), round(b.y.toFloat))
+      g.drawLine(a.x, a.y, b.x, b.y)
     else {
       val c = (a * 2 + b) / 3
       val d = (a + b * 2) / 3

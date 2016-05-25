@@ -2,9 +2,10 @@
 
 This framework allows you to easily create any fractal that comes up to your (or your friend) imagination.
 
-It comes with two examples:
+It comes with three examples:
  - [Koch Curve](src/examples/KochCurve.scala)
  - [Koch Snowflake](src/examples/KochSnowflake.scala)
+ - [I](src/examples/I.scala) (this fractal was made up by me)
 
 # Example
 

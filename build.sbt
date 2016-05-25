@@ -1,6 +1,6 @@
 name := "Fractal"
 
-version := "1.0"
+version := "2.1.0"
 
 mainClass := Some("fractal.MainWindow")
 
